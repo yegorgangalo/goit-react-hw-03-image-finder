@@ -16,9 +16,7 @@ class SearchBar extends PureComponent {
     event.preventDefault();
     const { searchQuery } = this.state;
     searchQuery.trim() !== '' ? this.props.onSubmit(searchQuery) : toast.warn('Input search Query');
-    console.log('before', this.state.searchQuery);
     this.reset();
-    console.log('after', this.state.searchQuery);
   }
 
   reset = () => this.setState({ searchQuery: '' })
