@@ -14,10 +14,10 @@ const status = {
 const { IDLE, PENDING, REJECTED, RESOLVED } = status;
 const defaultState = {
         status: IDLE,
-        error: '',
-        imgArray: [],
-        totalHitsLength: 0,
+        imgFetched: [],
+        imgTotal: 0,
         page: 1,
+        error: '',
     }
 
 class ImageGallery extends PureComponent {
@@ -33,7 +33,7 @@ class ImageGallery extends PureComponent {
         if (prevProps.searchQuery !== this.props.searchQuery) {
             this.resetGallery(this.fetchQuery);
         }
-        if (prevState.imgArray !== this.state.imgArray) {
+        if (prevState.imgFetched !== this.state.imgFetched) {
             window.scrollTo({
               top: document.documentElement.scrollHeight,
               behavior: 'smooth',
@@ -44,27 +44,25 @@ class ImageGallery extends PureComponent {
     fetchQuery = () => {
         this.setState({ status: PENDING });
         const { searchQuery } = this.props;
-        const { page, imgArray } = this.state;
+        const { page, imgFetched } = this.state;
         const { staticURL, perPage } = this.staticFetchOptions;
         const url = `${staticURL}&q=${searchQuery}&page=${page}&per_page=${perPage}&key=${keyAPI}`;
 
     return setTimeout(() => {
       fetch(url)
       .then(res => {
-        //   console.dir(res);
           if (!res.ok) {
               return Promise.reject(new Error(`There is no image with tag ${searchQuery}`));
           }
           return res.json();
       })
           .then(({ hits, totalHits }) => {
-            //   console.log(totalHits);
-        if (hits.length===0 && imgArray.length===0) {
+        if (hits.length===0 && imgFetched.length===0) {
               return Promise.reject(new Error(`There is no image with tag: ${searchQuery}`));
           }
         this.setState((prevState) => ({
-            imgArray: [...prevState.imgArray, ...hits],
-            totalHits: totalHits,
+            imgFetched: [...prevState.imgFetched, ...hits],
+            imgTotal: totalHits,
             status: RESOLVED,
         }));
         this.incrementPage();
@@ -79,16 +77,16 @@ class ImageGallery extends PureComponent {
     resetGallery = (callback = null) => this.setState({ ...defaultState }, callback);
 
     buttonLoadType = () => {
-        const { imgArray, page, totalHits, status } = this.state;
+        const { imgFetched, page, totalHits, status } = this.state;
         let btnType = 'more';
         if(page === 1) {btnType = 'spinner'};
         if (status === PENDING && page>1) { btnType = 'loading' };
-        if (imgArray.length >= totalHits) { btnType = 'hidden' };
+        if (imgFetched.length >= totalHits) { btnType = 'hidden' };
         return btnType;
     }
 
     render() {
-        const { imgArray, error, status } = this.state;
+        const { imgFetched, error, status } = this.state;
         const buttonType = this.buttonLoadType();
 
         if (status === IDLE) {
@@ -97,7 +95,7 @@ class ImageGallery extends PureComponent {
         if (status === PENDING) {
             return (
                 <>
-                <ImageGalleryList imgArray={imgArray}/>
+                <ImageGalleryList imgArray={imgFetched}/>
                 <Button type={buttonType}/>
                 </>
             )
@@ -108,7 +106,7 @@ class ImageGallery extends PureComponent {
         if (status === RESOLVED) {
             return (
                 <>
-                <ImageGalleryList imgArray={imgArray}/>
+                <ImageGalleryList imgArray={imgFetched}/>
                 <Button type={buttonType} onClickFetch={this.fetchQuery} />
                 </>
             )
