@@ -5,23 +5,8 @@ import SearchBar from './components/SearchBar';
 import ImageGallery from './components/ImageGallery';
 
 class App extends Component {
-    static defaultProps = {
-      //
-    }
-
-    static propTypes = {
-        //
-    }
-
     state = {
       searchQuery: '',
-    }
-
-    componentDidMount(){
-
-    }
-
-    componentDidUpdate(prevProps, prevState){
     }
 
     setSearchQuery = (searchQuery) => {

@@ -1,7 +1,12 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
 class SearchBar extends PureComponent {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  }
+
     state = {
       searchQuery:'',
     }

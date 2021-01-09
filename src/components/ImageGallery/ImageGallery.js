@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import s from './ImageGallery.module.css';
 import ImageGalleryList from '../ImageGalleryList';
 import Button from '../Button';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const keyAPI = '19532775-cd1fec64673db4c80a00103d2';
 const status = {
@@ -21,6 +21,9 @@ const defaultState = {
     }
 
 class ImageGallery extends PureComponent {
+    static propTypes = {
+        searchQuery: PropTypes.string.isRequired,
+    }
 
     state = { ...defaultState }
 

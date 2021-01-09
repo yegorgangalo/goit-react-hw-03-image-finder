@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ImSpinner6 } from 'react-icons/im';
 import s from './Button.module.css';
 
-function Button({ onClickFetch = null, type = 'more', show = true }) {
-    // if (show === false) {return <></>}
+function Button({ onClickFetch = null, type = 'more'}) {
     if (type === 'hidden') {return <></>}
     if (type === 'more') {
         return <button className={s.button} type="button" onClick={onClickFetch}>Load More</button>;
@@ -20,6 +20,11 @@ function Button({ onClickFetch = null, type = 'more', show = true }) {
                 <span>Loading...</span>
             </button>)
     }
+}
+
+Button.propTypes = {
+    onClickFetch: PropTypes.func,
+    type: PropTypes.string,
 }
 
 export default Button;
