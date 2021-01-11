@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { imageAPI } from '../../APIservice';
-import s from './ImageGallery.module.css';
+import Notification from '../Notification'
 import ImageGalleryList from '../ImageGalleryList';
 import Button from '../Button';
 import PropTypes from 'prop-types';
@@ -80,7 +80,7 @@ class ImageGallery extends PureComponent {
         const buttonType = this.buttonLoadType();
 
         if (status === IDLE) {
-            return <h1 className={s.info}>Input tag to find images</h1>
+            return <Notification text="Input tag to find images"/>
         }
         if (status === PENDING) {
             return (
@@ -91,7 +91,7 @@ class ImageGallery extends PureComponent {
             )
         }
         if (status === REJECTED) {
-            return <h1 className={s.info}>{error.message}</h1>
+            return <Notification text={error.message}/>
         }
         if (status === RESOLVED) {
             return (
