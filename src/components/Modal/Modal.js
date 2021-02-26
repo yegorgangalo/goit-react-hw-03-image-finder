@@ -22,8 +22,8 @@ class Modal extends PureComponent {
     }
 
     backdropCloseModal = ({ target, currentTarget }) => {
-        // target === currentTarget && this.props.onClose();
-        this.props.onClose()
+        target === currentTarget && this.props.onClose();
+        // this.props.onClose()
     }
 
     render() {

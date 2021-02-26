@@ -13,6 +13,8 @@ class App extends Component {
       this.setState({ searchQuery });
     }
 
+
+
     render() {
       const { searchQuery } = this.state;
       return (<>

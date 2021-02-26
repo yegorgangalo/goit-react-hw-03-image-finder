@@ -45,22 +45,25 @@ class ImageGallery extends PureComponent {
         const { searchQuery } = this.props;
         const { page, imgFetched } = this.state;
 
-    return setTimeout(() => {
-        imageAPI(searchQuery, page)
-          .then(({ hits, totalHits }) => {
-            if (hits.length===0 && imgFetched.length===0) {
-                  return Promise.reject(new Error(`There is no image with tag: ${searchQuery}`));
-              }
-            this.setState((prevState) => ({
-                imgFetched: [...prevState.imgFetched, ...hits],
-                imgTotal: totalHits,
-                status: RESOLVED,
-            }));
-            this.incrementPage();
-          })
-          .catch(error => this.setState({ error, status: REJECTED }))
-          }, 500)
+        return setTimeout(() => {
+            imageAPI(searchQuery, page)
+                .then(({ hits, totalHits }) => {
+                    if (hits.length === 0 && imgFetched.length === 0) {
+                        return Promise.reject(new Error(`There is no image with tag: ${searchQuery}`));
+                    }
+                    this.setState((prevState) => ({
+                        imgFetched: [...prevState.imgFetched, ...hits],
+                        imgTotal: totalHits,
+                        status: RESOLVED,
+                    }));
+                    this.incrementPage();
+                })
+                .catch(error => this.setState({ error, status: REJECTED }))
+        }, 500);
+
     }
+
+    // tryFetch = () => callBoardAPI();
 
     incrementPage = () => this.setState((prevState) => ({ page: prevState.page +1 }));
 
@@ -97,7 +100,8 @@ class ImageGallery extends PureComponent {
             return (
                 <>
                 <ImageGalleryList imgArray={imgFetched}/>
-                <Button type={buttonType} onClickFetch={this.fetchQuery} />
+                    <Button type={buttonType} onClickFetch={this.fetchQuery} />
+                    {/* <button type="button" onClick={this.tryFetch}>tryFetch</button> */}
                 </>
             )
         }

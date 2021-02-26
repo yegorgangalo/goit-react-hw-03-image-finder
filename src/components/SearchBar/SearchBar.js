@@ -24,7 +24,7 @@ class SearchBar extends PureComponent {
     this.reset();
   }
 
-  reset = () => this.setState({ searchQuery: '' })
+  reset = () => this.setState({ searchQuery: '' });
 
     render() {
       const { searchQuery } = this.state;
@@ -44,7 +44,7 @@ class SearchBar extends PureComponent {
                   value={searchQuery}
                   onChange={this.handleInputChange}
                 />
-              </form>
+            </form>
             </header>
         )
     }

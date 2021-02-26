@@ -9,10 +9,5 @@ const { staticURL, perPage, keyAPI } = staticFetchOptions;
 export function imageAPI (query, page) {
     const url = `${staticURL}&q=${query}&page=${page}&per_page=${perPage}&key=${keyAPI}`;
     return fetch(url)
-        .then(res => {
-            if (!res.ok) {
-                return Promise.reject(new Error(`There is no image with tag ${query}`));
-            }
-            return res.json();
-        })
+        .then(res => res.ok ? res.json() : Promise.reject(new Error(`There is no image with tag ${query}`)));
 }
